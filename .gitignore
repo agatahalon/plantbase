@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+
+# SQLite database (regenerated from schema.sql + seed scripts)
+*.db
+*.sqlite
+*.sqlite3
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
