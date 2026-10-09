@@ -50,7 +50,7 @@ sqlite3 plantbase.db < database/schema.sql
 sqlite3 plantbase.db < database/seed_data.sql
 
 # Generate synthetic sales data (2023-2025)
-python database/generate_sales.py
+python3 database/generate_sales.py
 
 # Run a single query, e.g. count the rows in a table
 sqlite3 plantbase.db "SELECT COUNT(*) FROM growing_conditions;"
