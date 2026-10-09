@@ -123,8 +123,27 @@ ORDER BY p.common_name, u.use_name;
 
 -- Query 17: Total revenue per plant, with the plant's id and name shown. plants JOIN sales, group by plant, SUM(quantity_sold * price_per_package). Same query as Query 11 but readable by name instead of plant_id — a good one to compare side by side with Query 11's output. Same sales-data dependency as Query 11/12.
 
-SELECT p.id, p.common_name, ROUND(SUM(quantity_sold * price_per_package), 2) AS total_revenue
+SELECT p.id, p.common_name, ROUND(SUM(s.quantity_sold * s.price_per_package), 2) AS total_revenue
 FROM plants p
 LEFT JOIN sales s ON s.plant_id = p.id
 GROUP BY p.id, p.common_name
-ORder BY total_revenue DESC;
+ORDER BY total_revenue DESC;
+
+-- =====================================================
+-- Section 4: HAVING, DISTINCT, subqueries, CASE, dates
+-- =====================================================
+
+-- Query 18 (HAVING): Which plant families have more than one plant in the table? Show the family and how many plants it has. HAVING filters groups after GROUP BY, the way WHERE filters rows before it. Hint: COUNT(*) per family, then HAVING COUNT(*) > 1.
+
+
+-- Query 19 (DISTINCT, data check): List every distinct sunlight value in growing_conditions, sorted alphabetically. This is a QA-style data check: it should expose the known sunlight wording inconsistency (6 variants). Think about how this query could become a test later.
+
+
+-- Query 20 (subquery): Which plants have total revenue above the average revenue per plant? Hint: the inner query computes revenue per plant, the outer query compares against its average. Try a subquery in HAVING or in FROM.
+
+
+-- Query 21 (CASE): Label each sale as 'small' (quantity under 5), 'medium' (5 to 9) or 'large' (10 or more) in a new column, and show how many sales fall into each label. Hint: CASE WHEN ... THEN ... END, then GROUP BY the label.
+
+
+-- Query 22 (date functions): For each year and month, show the total number of packages sold, sorted chronologically. Hint: strftime('%Y-%m', sale_date) like in Query 12. Bonus: which month has the highest total across all years?
+
