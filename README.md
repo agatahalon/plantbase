@@ -17,7 +17,7 @@ Work in progress -- built step by step as a learning project.
 ## Tech stack
 
 - Database: SQLite
-- Backend: Python
+- Backend: Python (FastAPI)
 - Testing: pytest, Playwright
 - CI: GitHub Actions
 
@@ -26,7 +26,7 @@ Work in progress -- built step by step as a learning project.
 ```
 plantbase/
 ├── database/            # schema.sql, seed_data.sql, generate_sales.py, queries.sql
-├── app/                 # backend application code
+├── app/                 # FastAPI backend (API)
 ├── tests/
 │   ├── sql/             # data-quality / database tests
 │   ├── unit/            # unit and API tests
@@ -60,3 +60,48 @@ sqlite3 -header -column plantbase.db < database/queries.sql
 ```
 
 Note: running `generate_sales.py` a second time adds another batch of sales rows. To avoid duplicates, rebuild the database with the commands above first.
+
+### Python environment and tests
+
+Set up the virtual environment once (from the repository root), then activate it in every new terminal:
+
+```bash
+# Create the virtual environment (first time only)
+python3 -m venv venv
+
+# Activate it (the prompt then starts with "(venv)")
+source venv/bin/activate
+
+# Install the dependencies (first time, or after requirements.txt changes)
+pip install -r requirements.txt
+
+# Run the database data-quality tests
+pytest tests/sql -v
+
+# Leave the virtual environment
+deactivate
+```
+
+If `pytest` or `uvicorn` is "not found", the virtual environment is not active in that terminal.
+
+## Running the API locally
+
+The API is a small FastAPI app (`app/main.py`) that reads data from `plantbase.db`. Build the database first (see above), then start the server from the repository root:
+
+```bash
+source venv/bin/activate
+uvicorn app.main:app --reload
+```
+
+`--reload` restarts the server automatically whenever a file is saved. Stop the server with `Ctrl+C`.
+
+### About localhost
+
+While the server runs, the API is available **only on your own computer** at `http://127.0.0.1:8000` (also written `http://localhost:8000`). `127.0.0.1` is the address a computer uses to talk to itself, and `8000` is the port the server listens on. Nobody else can reach it, and it stops working when you stop the server. If port 8000 is already in use, start the server on another one, for example `uvicorn app.main:app --reload --port 8001`.
+
+| URL | What it shows |
+|---|---|
+| `http://127.0.0.1:8000/plants` | All plants as JSON |
+| `http://127.0.0.1:8000/docs` | Interactive API documentation (try the endpoints in the browser) |
+
+Note: `is_toxic` comes back as `0` or `1`, because SQLite has no boolean type.
