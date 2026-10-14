@@ -243,7 +243,7 @@ VALUES (
             FROM plants
             WHERE common_name = 'Stinging Nettle'
         ),
-        'Partial shade to full sun',
+        'Full sun to partial shade',
         'Moist, nitrogen-rich soil',
         6,
         9,
@@ -369,7 +369,7 @@ VALUES (
             FROM plants
             WHERE common_name = 'Turmeric'
         ),
-        'Partial shade to full sun',
+        'Full sun to partial shade',
         'Rich, well-drained, loamy soil',
         NULL,
         NULL,
